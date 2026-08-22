@@ -15,6 +15,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ApiMeRouteImport } from './routes/api/me'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiZeroQueryRouteImport } from './routes/api/zero/query'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiZeroQueryRoute = ApiZeroQueryRouteImport.update({
+  id: '/api/zero/query',
+  path: '/api/zero/query',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/api/me': typeof ApiMeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/zero/query': typeof ApiZeroQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/api/me': typeof ApiMeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/zero/query': typeof ApiZeroQueryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,13 +79,27 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/api/me': typeof ApiMeRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/zero/query': typeof ApiZeroQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/dashboard' | '/login' | '/register' | '/api/me' | '/api/auth/$'
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/api/me'
+    | '/api/auth/$'
+    | '/api/zero/query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/register' | '/api/me' | '/api/auth/$'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/register'
+    | '/api/me'
+    | '/api/auth/$'
+    | '/api/zero/query'
   id:
     | '__root__'
     | '/'
@@ -86,6 +108,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/api/me'
     | '/api/auth/$'
+    | '/api/zero/query'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -95,6 +118,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ApiMeRoute: typeof ApiMeRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiZeroQueryRoute: typeof ApiZeroQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -141,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/zero/query': {
+      id: '/api/zero/query'
+      path: '/api/zero/query'
+      fullPath: '/api/zero/query'
+      preLoaderRoute: typeof ApiZeroQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -151,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ApiMeRoute: ApiMeRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiZeroQueryRoute: ApiZeroQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

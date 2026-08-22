@@ -1,3 +1,5 @@
+import type { ZeroOptions } from '@rocicorp/zero';
+import { ZeroProvider } from '@rocicorp/zero/react';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { formDevtoolsPlugin } from '@tanstack/react-form-devtools';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -6,6 +8,7 @@ import { createRootRoute, HeadContent, Link, Outlet, Scripts } from '@tanstack/r
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import { getSiteName } from '../config/server/getSiteName';
+import { schema } from '../database/generated/zero/schema';
 
 const THIRTY_SECONDS = 30 * 1000;
 
@@ -19,6 +22,11 @@ const queryClient = new QueryClient({
 });
 
 export { queryClient };
+
+const opts: ZeroOptions = {
+  cacheURL: 'http://localhost:4848',
+  schema,
+};
 
 export const Route = createRootRoute({
   beforeLoad: async () => {
@@ -58,7 +66,9 @@ function RootComponent() {
           <HeadContent />
         </head>
         <body>
-          <Outlet />
+          <ZeroProvider {...opts}>
+            <Outlet />
+          </ZeroProvider>
           <TanStackDevtools
             plugins={[
               formDevtoolsPlugin(),
