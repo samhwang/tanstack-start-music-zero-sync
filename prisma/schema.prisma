@@ -99,3 +99,47 @@ model RateLimit {
   @@unique([key])
   @@map("rateLimit")
 }
+
+// ============================================================
+// Music Player models
+// ============================================================
+
+model Fan {
+  id        String   @id
+  name      String
+  email     String   @unique
+  createdAt DateTime
+
+  favorites Favorite[]
+}
+
+model Artist {
+  id        String   @id
+  name      String
+  genre     String
+  bio       String?
+  createdAt DateTime
+
+  albums Album[]
+}
+
+model Album {
+  id          String   @id
+  title       String
+  artist      Artist   @relation(fields: [artistId], references: [id])
+  artistId    String
+  releaseYear Int
+  coverArtUrl String?
+  createdAt   DateTime
+
+  favorites Favorite[]
+}
+
+model Favorite {
+  id        String   @id
+  fan       Fan      @relation(fields: [fanId], references: [id])
+  fanId     String
+  album     Album    @relation(fields: [albumId], references: [id])
+  albumId   String
+  createdAt DateTime
+}
