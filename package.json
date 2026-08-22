@@ -27,13 +27,15 @@
     "prisma:generate": "dotenvx run -- prisma generate",
     "prisma:studio": "dotenvx run -- prisma studio",
     "auth:generate": "dotenvx run -- better-auth generate --config ./src/auth/server.ts",
-    "auth:secret": "better-auth secret"
+    "auth:secret": "better-auth secret",
+    "zero:dev": "zero-cache-dev"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.7.1",
     "@dotenvx/dotenvx": "^2.21.0",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "@rocicorp/zero": "^1.9.0",
     "@tanstack/react-devtools": "^0.10.10",
     "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-form-devtools": "^0.2.34",
@@ -76,6 +78,7 @@
     "oxlint": "^1.79.0",
     "oxlint-tsgolint": "^7.0.2001",
     "pg": "^8.23.0",
+    "prisma-zero": "^0.2.1",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
