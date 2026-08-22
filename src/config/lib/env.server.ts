@@ -1,0 +1,52 @@
+import * as z from 'zod';
+
+export const ClientRuntimeEnv = z.object({
+  SITE_NAME: z.string().min(1).default('My App'),
+});
+export type ClientRuntimeEnv = z.infer<typeof ClientRuntimeEnv>;
+
+function parseClientRuntimeEnv(): ClientRuntimeEnv {
+  const result = ClientRuntimeEnv.safeParse(process.env);
+  if (!result.success) {
+    const formatted = result.error.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n');
+    throw new Error(`Invalid client environment variables:\n${formatted}`);
+  }
+  return result.data;
+}
+export const clientEnv = parseClientRuntimeEnv();
+
+// --- Server env slices ---
+
+const DatabaseEnv = z.object({
+  DATABASE_URL: z.url(),
+});
+
+const AuthEnv = z.object({
+  BETTER_AUTH_SECRET: z.string().min(32),
+  BETTER_AUTH_URL: z.url(),
+});
+
+const NetworkEnv = z.object({
+  TRUSTED_ORIGINS: z
+    .string()
+    .optional()
+    .transform((v) =>
+      v
+        ?.split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    ),
+});
+
+const ServerEnv = z.intersection(DatabaseEnv, z.intersection(AuthEnv, NetworkEnv));
+type ServerEnv = z.infer<typeof ServerEnv>;
+
+function parseServerEnv(): ServerEnv {
+  const result = ServerEnv.safeParse(process.env);
+  if (!result.success) {
+    const formatted = result.error.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n');
+    throw new Error(`Invalid server environment variables:\n${formatted}`);
+  }
+  return result.data;
+}
+export const serverEnv = parseServerEnv();
