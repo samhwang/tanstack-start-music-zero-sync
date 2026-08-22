@@ -1,9 +1,11 @@
+import { useQuery } from '@rocicorp/zero/react';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { getRequestHeaders } from '@tanstack/react-start/server';
 
 import { authClient } from '../auth/client';
 import { auth } from '../auth/server';
+import { queries } from '../music/queries';
 
 const getSession = createServerFn().handler(async () => {
   const headers = getRequestHeaders();
@@ -30,6 +32,8 @@ function DashboardPage() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
+  const [albums] = useQuery(queries.albums.byArtist({ artistId: 'artist_1' }));
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -38,6 +42,12 @@ function DashboardPage() {
       <button type="button" onClick={() => void authClient.signOut()}>
         Sign out
       </button>
+
+      <ul>
+        {albums.map((album) => (
+          <li key={album.id}>{album.title}</li>
+        ))}
+      </ul>
     </main>
   );
 }
