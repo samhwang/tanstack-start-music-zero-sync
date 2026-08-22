@@ -9,6 +9,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import { getSiteName } from '../config/server/getSiteName';
 import { schema } from '../database/generated/zero/schema';
+import { mutators } from '../music/mutators';
 
 const THIRTY_SECONDS = 30 * 1000;
 
@@ -26,6 +27,7 @@ export { queryClient };
 const opts: ZeroOptions = {
   cacheURL: 'http://localhost:4848',
   schema,
+  mutators,
 };
 
 export const Route = createRootRoute({
