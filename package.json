@@ -29,7 +29,7 @@
     "prisma:studio": "dotenvx run -- prisma studio",
     "auth:generate": "dotenvx run -- better-auth generate --config ./src/auth/server.ts",
     "auth:secret": "better-auth secret",
-    "zero:dev": "zero-cache-dev"
+    "zero:dev": "dotenvx run -- zero-cache-dev"
   },
   "dependencies": {
     "@better-auth/prisma-adapter": "^1.7.1",
