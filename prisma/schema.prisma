@@ -119,6 +119,8 @@ model Fan {
   createdAt DateTime
 
   favorites Favorite[]
+
+  @@map("fans")
 }
 
 model Artist {
@@ -129,6 +131,8 @@ model Artist {
   createdAt DateTime
 
   albums Album[]
+
+  @@map("artists")
 }
 
 model Album {
@@ -141,6 +145,8 @@ model Album {
   createdAt   DateTime
 
   favorites Favorite[]
+
+  @@map("albums")
 }
 
 model Favorite {
@@ -150,4 +156,6 @@ model Favorite {
   album     Album    @relation(fields: [albumId], references: [id])
   albumId   String
   createdAt DateTime
+
+  @@map("favorites")
 }
